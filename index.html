@@ -29,6 +29,23 @@
 
 
         <script>
+            function getParameter (paramName) {
+              var searchString = window.location.search.substring(1),
+                  i, val, params = searchString.split("&");
+
+              for (i=0;i<params.length;i++) {
+                val = params[i].split("=");
+                if (val[0] == paramName) {
+                  return val[1];
+                }
+              }
+              return null;
+            }
+
+            function rot13 (s) {
+                return s.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
+            }
+
             function focusTyper () {
                 document.getElementById('typer').focus();
             }
@@ -46,6 +63,10 @@
             };
 
             document.body.addEventListener('keydown', fontsize);
+
+            var urlParam = getParameter('txt') || rot13(getParameter('rot'));
+            document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
+            window.fontsize();
         </script>
     </body>
 </html>
