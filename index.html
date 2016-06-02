@@ -62,7 +62,12 @@
                 typer.setAttribute('style', 'transform: scale(' + scale + ')');
             };
 
+            window.updateURL = function () {
+                window.history.pushState({},"", '?txt=' + encodeURIComponent(document.getElementById('typer').textContent));
+            }
+
             document.body.addEventListener('keydown', fontsize);
+            document.body.addEventListener('keydown', updateURL);
 
             var urlParam = getParameter('txt') || rot13(getParameter('rot'));
             document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
