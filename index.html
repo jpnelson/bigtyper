@@ -1,9 +1,16 @@
 <html>
     <head>
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
         <link rel="icon" type="image/png" href="favicon.png" />
-
         <style>
+            @font-face {
+                font-family: 'Futura';
+                src: url('futura.ttf');
+            }
+            body {
+                color: #222;
+                background: #f9f9f9;
+                -webkit-font-smoothing: antialiased;
+            }
             #typer-container {
                 padding: 0;
                 margin: 0;
@@ -19,7 +26,7 @@
                 outline: none;
                 display: inline-flex;
                 padding: 10px;
-                font-family: 'Roboto Slab', serif;
+                font-family: 'Futura';
             }
 
             #typer:not(.typing-started):empty:before {
