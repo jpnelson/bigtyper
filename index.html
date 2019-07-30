@@ -1,9 +1,32 @@
 <html>
     <head>
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
         <link rel="icon" type="image/png" href="favicon.png" />
-
         <style>
+            @font-face {
+                font-family: 'Futura';
+                src: url('futura.ttf');
+            }
+
+            body {
+                font-family: 'Futura';
+                color: #111;
+                background: #f9f9f9;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .dark {
+                color: #f9f9f9;
+                background: #111;
+            }
+
+            #theme-icon {
+                position: fixed;
+                bottom: 15;
+                right: 15;
+                font-weight: 100;
+                font-size: .7em;
+            }
+
             #typer-container {
                 padding: 0;
                 margin: 0;
@@ -14,12 +37,12 @@
                 overflow: hidden;
                 height: 100%;
             }
+
             #typer {
                 text-align: center;
                 outline: none;
                 display: inline-flex;
                 padding: 10px;
-                font-family: 'Roboto Slab', serif;
             }
 
             #typer:not(.typing-started):empty:before {
@@ -27,7 +50,6 @@
                 color: rgb(200,200,200)
             }
         </style>
-
     </head>
     <body>
         <div id="typer-container">
@@ -61,6 +83,18 @@
 
             document.body.addEventListener('click', focusTyper);
 
+            document.onkeyup = function(e) {   
+                if (e.ctrlKey && e.which == 84) {
+                    var body = document.querySelector('body');
+
+                    if (body.classList.contains('dark')) {
+                        body.classList.remove('dark');
+                    } else {
+                        body.classList.add('dark');
+                    }
+                }
+            };
+
             window.fontsize = function () {
                 var typer = document.getElementById('typer');
                 var typerWidth = typer.clientWidth;
@@ -84,6 +118,8 @@
             var urlParam = getParameter('txt') || rot13(getParameter('rot'));
             document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
             window.fontsize();
+
+            console.log('Pro Tip: Use ctrl + t to change to dark theme!');
         </script>
     </body>
 </html>
