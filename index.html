@@ -19,14 +19,6 @@
                 background: #111;
             }
 
-            #theme-icon {
-                position: fixed;
-                bottom: 15;
-                right: 15;
-                font-weight: 100;
-                font-size: .7em;
-            }
-
             #typer-container {
                 padding: 0;
                 margin: 0;
@@ -84,7 +76,7 @@
             document.body.addEventListener('click', focusTyper);
 
             document.onkeyup = function(e) {   
-                if (e.ctrlKey && e.which == 84) {
+                if (e.ctrlKey && e.which == 85) {
                     var body = document.querySelector('body');
 
                     if (body.classList.contains('dark')) {
@@ -119,7 +111,7 @@
             document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
             window.fontsize();
 
-            console.log('Pro Tip: Use ctrl + t to change to dark theme!');
+            console.log('Pro Tip: Use CTRL+U to change to the dark theme!');
         </script>
     </body>
 </html>
