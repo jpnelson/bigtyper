@@ -76,7 +76,7 @@
             document.body.addEventListener('click', focusTyper);
 
             document.onkeyup = function(e) {   
-                if (e.ctrlKey && e.which == 85) {
+                if (e.ctrlKey && e.which == 90) {
                     var body = document.querySelector('body');
 
                     if (body.classList.contains('dark')) {
@@ -111,7 +111,7 @@
             document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
             window.fontsize();
 
-            console.log('Pro Tip: Use CTRL+U to change to the dark theme!');
+            console.log('Pro Tip: Use ctrl + z to change to the dark theme!');
         </script>
     </body>
 </html>
