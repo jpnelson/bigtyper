@@ -1,117 +1,141 @@
 <html>
-    <head>
-        <link rel="icon" type="image/png" href="favicon.png" />
-        <style>
-            @font-face {
-                font-family: 'Futura';
-                src: url('futura.ttf');
-            }
+  <head>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <style>
+      @font-face {
+        font-family: "Futura";
+        src: url("futura.ttf");
+      }
 
-            body {
-                font-family: 'Futura';
-                color: #111;
-                background: #f9f9f9;
-                -webkit-font-smoothing: antialiased;
-            }
+      body {
+        font-family: "Futura";
+        color: #111;
+        background: #f9f9f9;
+        -webkit-font-smoothing: antialiased;
+      }
 
-            .dark {
-                color: #f9f9f9;
-                background: #111;
-            }
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #f9f9f9;
+          background: #111;
+        }
+      }
 
-            #typer-container {
-                padding: 0;
-                margin: 0;
-                cursor: text;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-                height: 100%;
-            }
+      .dark {
+        color: #f9f9f9;
+        background: #111;
+      }
 
-            #typer {
-                text-align: center;
-                outline: none;
-                display: inline-flex;
-                padding: 10px;
-            }
+      #typer-container {
+        padding: 0;
+        margin: 0;
+        cursor: text;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        height: 100%;
+      }
 
-            #typer:not(.typing-started):empty:before {
-                content:"Start typing!";
-                color: rgb(200,200,200)
-            }
-        </style>
-    </head>
-    <body>
-        <div id="typer-container">
-            <div id="typer" class="typer" contentEditable="true" spellcheck="false"></div>
-        </div>
+      #typer {
+        text-align: center;
+        outline: none;
+        display: inline-flex;
+        padding: 10px;
+      }
 
-        <script>
-            function getParameter (paramName) {
-              var searchString = window.location.search.substring(1),
-                  i, val, params = searchString.split("&");
+      #typer:not(.typing-started):empty:before {
+        content: "Start typing!";
+        color: rgb(200, 200, 200);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="typer-container">
+      <div
+        id="typer"
+        class="typer"
+        contenteditable="true"
+        spellcheck="false"
+      ></div>
+    </div>
 
-              for (i=0;i<params.length;i++) {
-                val = params[i].split("=");
-                if (val[0] == paramName) {
-                  return val[1];
-                }
-              }
-              return null;
-            }
+    <script>
+      function getParameter(paramName) {
+        var searchString = window.location.search.substring(1),
+          i,
+          val,
+          params = searchString.split("&");
 
-            function rot13 (s) {
-                if (!s) {
-                    return s;
-                }
-                return s.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
-            }
+        for (i = 0; i < params.length; i++) {
+          val = params[i].split("=");
+          if (val[0] == paramName) {
+            return val[1];
+          }
+        }
+        return null;
+      }
 
-            function focusTyper () {
-                document.getElementById('typer').focus();
-            }
+      function rot13(s) {
+        if (!s) {
+          return s;
+        }
+        return s.replace(/[a-zA-Z]/g, function(c) {
+          return String.fromCharCode(
+            (c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26
+          );
+        });
+      }
 
-            document.body.addEventListener('click', focusTyper);
+      function focusTyper() {
+        document.getElementById("typer").focus();
+      }
 
-            document.onkeyup = function(e) {   
-                if (e.ctrlKey && e.which == 90) {
-                    var body = document.querySelector('body');
+      document.body.addEventListener("click", focusTyper);
 
-                    if (body.classList.contains('dark')) {
-                        body.classList.remove('dark');
-                    } else {
-                        body.classList.add('dark');
-                    }
-                }
-            };
+      document.onkeyup = function(e) {
+        if (e.ctrlKey && e.which == 90) {
+          var body = document.querySelector("body");
 
-            window.fontsize = function () {
-                var typer = document.getElementById('typer');
-                var typerWidth = typer.clientWidth;
-                var windowWidth = document.body.clientWidth;
+          if (body.classList.contains("dark")) {
+            body.classList.remove("dark");
+          } else {
+            body.classList.add("dark");
+          }
+        }
+      };
 
-                var scale = windowWidth / typerWidth;
+      window.fontsize = function() {
+        var typer = document.getElementById("typer");
+        var typerWidth = typer.clientWidth;
+        var windowWidth = document.body.clientWidth;
 
-                typer.setAttribute('style', 'transform: scale(' + scale + ')');
-            };
+        var scale = windowWidth / typerWidth;
 
-            window.updateURL = function () {
-                window.history.pushState({},"", '?txt=' + document.getElementById('typer').textContent);
-            };
+        typer.setAttribute("style", "transform: scale(" + scale + ")");
+      };
 
-            document.body.addEventListener('keydown', fontsize);
-            document.body.addEventListener('keydown', function () {
-                document.getElementById('typer').classList.add('typing-started');
-            });
-            document.body.addEventListener('keyup', updateURL);
+      window.updateURL = function() {
+        window.history.pushState(
+          {},
+          "",
+          "?txt=" + document.getElementById("typer").textContent
+        );
+      };
 
-            var urlParam = getParameter('txt') || rot13(getParameter('rot'));
-            document.getElementById('typer').textContent = urlParam ? decodeURIComponent(urlParam) : '';
-            window.fontsize();
+      document.body.addEventListener("keydown", fontsize);
+      document.body.addEventListener("keydown", function() {
+        document.getElementById("typer").classList.add("typing-started");
+      });
+      document.body.addEventListener("keyup", updateURL);
 
-            console.log('Pro Tip: Use ctrl + z to change to the dark theme!');
-        </script>
-    </body>
+      var urlParam = getParameter("txt") || rot13(getParameter("rot"));
+      document.getElementById("typer").textContent = urlParam
+        ? decodeURIComponent(urlParam)
+        : "";
+      window.fontsize();
+
+      console.log("Pro Tip: Use ctrl + z to change to the dark theme!");
+    </script>
+  </body>
 </html>
