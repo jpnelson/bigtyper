@@ -49,6 +49,7 @@
         color: rgb(200, 200, 200);
       }
     </style>
+    <title>Start typing!</title>
   </head>
   <body>
     <div id="typer-container">
@@ -121,6 +122,8 @@
           "",
           "?txt=" + document.getElementById("typer").textContent
         );
+
+        document.title = document.querySelector("#typer").innerHTML.trim();
       };
 
       document.body.addEventListener("keydown", fontsize);
